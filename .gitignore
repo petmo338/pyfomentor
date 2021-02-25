@@ -1,3 +1,4 @@
 build/**
 pyfomentor.egg-info/**
 cookiejars/**
+dist/**
