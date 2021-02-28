@@ -65,13 +65,14 @@ def update(**kwargs):
     im.login(password)
     logger.info("User loggedin")
     statusinfo = {"datetime": now, "ok": False, "info": "", "degraded_count": 0}
-
+    output = '['
     for pupil in im.get_pupils():
         im.change_pupil(pupil.get('id'))
         try:
             homework = im.get_homework()
             timetable = im.get_timetable()
-            print(json.dumps({'pupil': pupil, 'homework': homework, 'timetable': timetable}))
+            output += json.dumps({'pupil': pupil, 'homework': homework, 'timetable': timetable})
+            output += ','
             statusinfo["ok"] = True
             statusinfo["degraded"] = False
         except Exception as e:
@@ -79,6 +80,7 @@ def update(**kwargs):
             statusinfo["ok"] = False
             statusinfo["info"] = inforstr
             logger.exception("Something went wrong: {}".format(e))
+    print(output[:-1] + ']')
 
 def main():
     global logger
